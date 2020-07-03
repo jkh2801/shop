@@ -15,7 +15,8 @@
   	<init-param>
  		<param-name>contextConfigLocation</param-name>
  		<param-value>
- 		classpath:spring-mvc.xml
+ 		classpath:spring-mvcAnnotation.xml
+ 		<!-- classpath:spring-mvc.xml -->
  		classpath:spring-db.xml
  		</param-value>
   	</init-param>

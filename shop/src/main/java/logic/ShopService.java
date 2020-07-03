@@ -29,5 +29,9 @@ public class ShopService {
 	public void insertUser(User user) {
 		userDao.insert(user);
 	}
+
+	public User getUser(String userid) {
+		return userDao.selectOne(userid);
+	}
 	
 }
