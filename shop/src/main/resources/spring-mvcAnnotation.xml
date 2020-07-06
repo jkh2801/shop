@@ -13,9 +13,9 @@ http://www.springframework.org/schema/aop
 http://www.springframework.org/schema/aop/spring-aop.xsd
 http://www.springframework.org/schema/mvc
 http://www.springframework.org/schema/mvc/spring-mvc.xsd">
-<!-- 요청 url과 controller 연결  -->
+<!-- 요청 url과 controller 연결 // path(item)로 들어오면 해당 controller(itemController)와 연결해준다.  -->
 <bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"></bean>
-<context:component-scan base-package="controller,login,dao"></context:component-scan>
+<context:component-scan base-package="controller,logic,dao"></context:component-scan>
 <mvc:annotation-driven></mvc:annotation-driven>
 
 <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">

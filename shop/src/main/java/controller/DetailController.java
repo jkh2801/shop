@@ -6,12 +6,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import logic.Item;
-import logic.ShopService;
+import logic.ShopService2;
 
 public class DetailController {
-	private ShopService shopService;
+	private ShopService2 shopService;
 
-	public void setShopService(ShopService shopService) {
+	public void setShopService(ShopService2 shopService) {
 		this.shopService = shopService;
 	}
 	

@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import logic.ShopService;
+import logic.ShopService2;
 import logic.User;
 import util.UserValidator;
 
 public class UserEntryController {
-	private ShopService shopService;
+	private ShopService2 shopService;
 	private UserValidator userValidator;
-	public void setShopService(ShopService shopService) {
+	public void setShopService(ShopService2 shopService) {
 		this.shopService = shopService;
 	}
 	public void setUserValidator(UserValidator userValidator) {

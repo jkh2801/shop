@@ -9,15 +9,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import logic.ShopService;
+import logic.ShopService2;
 import logic.User;
 import util.LoginValidator;
 
 public class LoginController {
-	private ShopService shopService;
+	private ShopService2 shopService;
 	private LoginValidator loginValidator;
 	
-	public void setShopService(ShopService shopService) {
+	public void setShopService(ShopService2 shopService) {
 		this.shopService = shopService;
 	}
 	public void setLoginValidator(LoginValidator loginValidator) {

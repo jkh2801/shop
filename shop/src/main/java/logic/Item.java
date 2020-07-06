@@ -1,8 +1,18 @@
 package logic;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Item {
 	private String id, name, description, pictureURL;
 	private int price;
+	private MultipartFile picture;
+	
+	public MultipartFile getPicture() {
+		return picture;
+	}
+	public void setPicture(MultipartFile picture) {
+		this.picture = picture;
+	}
 	public String getId() {
 		return id;
 	}
@@ -36,7 +46,7 @@ public class Item {
 	@Override
 	public String toString() {
 		return "Item [id=" + id + ", name=" + name + ", description=" + description + ", pictureURL=" + pictureURL
-				+ ", price=" + price + "]";
+				+ ", price=" + price + ", picture=" + picture + "]";
 	}
 	
 }
