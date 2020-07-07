@@ -10,12 +10,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import dao.ItemDao;
+import dao.UserDao;
 
 @Service
 public class ShopService {
 	
 	@Autowired
 	private ItemDao itemDao;
+	
+	@Autowired
+	private UserDao userDao;
 	
 	public List<Item> getItemList() {
 		return itemDao.list();
@@ -59,6 +63,14 @@ public class ShopService {
 
 	public void itemDelete(Integer id) {
 		itemDao.delete(id);
+	}
+
+	public void userInsert(User user) {
+		userDao.insert(user);
+	}
+
+	public User getUserByID(String userid) {
+		return userDao.selectOne(userid);
 	}
 	
 }

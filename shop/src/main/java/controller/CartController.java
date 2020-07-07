@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import exception.CartEmptyException;
 import logic.Cart;
 import logic.Item;
 import logic.ItemSet;
@@ -48,6 +49,23 @@ public class CartController {
 		Cart cart = (Cart)session.getAttribute("CART");
 		cart.getItemSetList().remove(index);
 		mav.addObject("message", "해당 상품이 삭제되었습니다.");
+		mav.addObject("cart", cart);
+		return mav;
+	}
+	
+	@RequestMapping("check*")
+	public ModelAndView check(HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		return mav;
+	}
+	
+	@RequestMapping("cart*")
+	public ModelAndView detail(HttpSession session) {
+		ModelAndView mav = new ModelAndView("cart/cart");
+		Cart cart = (Cart)session.getAttribute("CART");
+		if(cart == null || cart.getItemSetList().size() == 0) {
+			throw new CartEmptyException("장바구니에 상품이 없습니다.","../item/list.shop");
+		}
 		mav.addObject("cart", cart);
 		return mav;
 	}

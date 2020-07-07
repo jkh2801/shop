@@ -15,9 +15,10 @@ http://www.springframework.org/schema/mvc
 http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 <!-- 요청 url과 controller 연결 // path(item)로 들어오면 해당 controller(itemController)와 연결해준다.  -->
 <bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"></bean>
-<context:component-scan base-package="controller, logic, dao"></context:component-scan>
+<context:component-scan base-package="controller, logic, dao, aop"></context:component-scan>
 <mvc:annotation-driven></mvc:annotation-driven>
-
+<!-- AOP 설정을 annotation 방식으로 설정한다. -->
+<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 	<property name="viewClass">
 		<value>org.springframework.web.servlet.view.JstlView</value>
@@ -42,7 +43,8 @@ http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 <!-- 예외 처리 관련 설정: 예외별로 해당 view를 지정할 수 있다. -->
 <bean id="exceptionHandler" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 	<property name="exceptionMappings">
-		<value></value>
+		<value>exception.CartEmptyException=exception
+		exception.LoginException=exception</value>
 	</property>
 </bean>
 

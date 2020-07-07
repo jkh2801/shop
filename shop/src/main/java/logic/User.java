@@ -2,8 +2,27 @@ package logic;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class User {
-	private String userid, password, username, phoneno, postcode, address, email;
+	@Size(min = 3, max = 10, message = "아이디는 3자 이상 10자 이하로 입력하세요.")
+	private String userid;
+	@Size(min = 3, max = 10, message = "비밀번호는 5자 이상 20자 이하로 입력하세요.")
+	private String password;
+	@NotEmpty(message = "사용자 이름은 필수 입력입니다.")
+	private String username;
+	private String phoneno, postcode, address;
+	@Email(message = "email 형식으로 입력하세요.")
+	private String email;
+//	@NotNull(message = "생일을 입력하세요.")
+	@Past(message = "생일은 과거 날짜만 가능합니다.")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date birthday;
 
 	public String getUserid() {
