@@ -1,0 +1,19 @@
+<?xml version = "1.0" encoding="UTF-8" ?>
+<decorators defaultdir="/layout">
+	<decorator name="main" page="layout.jsp">
+		<pattern>*.shop</pattern>
+	</decorator>
+	<excludes>
+	<pattern>/model2/member/id*</pattern>
+	<pattern>/model2/member/pw*</pattern>
+	<pattern>/model2/member/picture*</pattern>
+	<pattern>/model2/member/password*</pattern>
+	<pattern>/model2/ajax/*</pattern>
+	
+	<pattern>/member/id*</pattern>
+	<pattern>/member/pw*</pattern>
+	<pattern>/ajax/*</pattern>
+	<pattern>/member/picture*</pattern>
+	<pattern>/member/password*</pattern>
+	</excludes>
+</decorators>

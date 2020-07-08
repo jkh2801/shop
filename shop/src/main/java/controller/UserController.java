@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -11,6 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import logic.Item;
+import logic.Sale;
+import logic.SaleItem;
 import logic.ShopService;
 import logic.User;
 
@@ -78,5 +83,23 @@ public class UserController {
 	@RequestMapping("main")
 	public String loginCheck(HttpSession session) {
 		return null;
+	}
+	
+	@RequestMapping("mypage")
+	public ModelAndView mypageCheck(String id, HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		User user = service.getUserByID(id);
+		List <Sale> list = service.getlist(id);
+		for(Sale s : list) {
+			List <SaleItem> saleitemlist = service.getsaleitemlist(s.getSaleid());
+			for(SaleItem si : saleitemlist) {
+				Item item = service.getItem(Integer.parseInt(si.getItemid()));
+				si.setItem(item);
+			}
+			s.setitemList(saleitemlist);
+		}
+		mav.addObject("user", user);
+		mav.addObject("salelist", list);
+		return mav;
 	}
 }

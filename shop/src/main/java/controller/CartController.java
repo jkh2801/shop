@@ -11,7 +11,9 @@ import exception.CartEmptyException;
 import logic.Cart;
 import logic.Item;
 import logic.ItemSet;
+import logic.Sale;
 import logic.ShopService;
+import logic.User;
 
 @Controller // controller 역할을 수행하는 @Component 객체이다.
 @RequestMapping("cart") // path에 cart으로 들어오는 요청을 처리해준다. (/cart/)
@@ -56,6 +58,19 @@ public class CartController {
 	@RequestMapping("check*")
 	public ModelAndView check(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
+		return mav;
+	}
+	
+	@RequestMapping("end*")
+	public ModelAndView checkend(HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		Cart cart = (Cart)session.getAttribute("CART");
+		User loginUser = (User)session.getAttribute("loginUser");
+		Sale sale = service.checkend(loginUser, cart);
+		long total = cart.getTotal();
+		mav.addObject("sale", sale);
+		mav.addObject("total", total);
+		session.removeAttribute("CART"); // session의 'CART' 정보를 제거한다.
 		return mav;
 	}
 	
