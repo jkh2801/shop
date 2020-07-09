@@ -24,4 +24,13 @@ public class UserLoginAspect {
 		return joinPoint.proceed();
 	}
 	
+	@Around ("execution(* controller.User*.mypageCheck*(..)) && args(..,id,session)")
+	public Object myPageCheck(ProceedingJoinPoint joinPoint, String id, HttpSession session) throws Throwable{
+		User loginUser = (User) session.getAttribute("loginUser");
+		if(loginUser == null) throw new LoginException("[System] : 로그인 후 거래하세요.", "login.shop");
+		else if(!loginUser.getUserid().equals("admin") && !loginUser.getUserid().equals(id))
+			throw new LoginException("[System] : 해당 권한이 없습니다.", "main.shop");
+		return joinPoint.proceed();
+	}
+	
 }

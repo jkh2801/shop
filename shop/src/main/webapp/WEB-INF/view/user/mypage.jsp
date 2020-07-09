@@ -115,7 +115,7 @@ function list_disp(id) {
 </table><br>
 <a href="update.shop?id=${user.userid}">[회원정보수정]</a>&nbsp;
 <c:if test="${loginUser.userid != 'admin' }">
-<a href="delte.shop?id=${user.userid}">[회원탈퇴]</a>&nbsp;
+<a href="delete.shop?id=${user.userid}">[회원탈퇴]</a>&nbsp;
 </c:if>
 <c:if test="${loginUser.userid == 'admin' }">
 <a href="../admin/list.shop">[회원목록]</a>&nbsp;

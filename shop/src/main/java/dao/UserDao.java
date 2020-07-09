@@ -1,6 +1,7 @@
 package dao;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
@@ -37,5 +38,18 @@ public class UserDao {
 		param.clear();
 		param.put("id", userid);
 		return template.queryForObject("select * from useraccount where userid = :id",param,  mapper);
+	}
+	public void updateUserinfo(User user) {
+		param.clear();
+		SqlParameterSource prop = new BeanPropertySqlParameterSource(user);
+		template.update("update useraccount set username = :username, phoneno = :phoneno, postcode = :postcode, address = :address, email = :email, birthday = :birthday where userid = :userid", prop);
+	}
+	public void deleteUserinfo(String userid) {
+		param.clear();
+		param.put("userid", userid);
+		template.update("delete from useraccount where userid=:userid", param);
+	}
+	public List<User> getlistAll() {
+		return template.query("SELECT * FROM useraccount where userid != 'admin'", mapper);
 	}
 }

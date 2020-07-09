@@ -100,6 +100,18 @@ public class ShopService {
 	public List<SaleItem> getsaleitemlist(int saleid) {
 		return saleDao.getsaleitemlist(saleid);
 	}
+
+	public void updateUserinfo(User user) {
+		userDao.updateUserinfo(user);
+	}
+
+	public void deleteUserinfo(String userid) {
+		userDao.deleteUserinfo(userid);
+	}
+
+	public List<User> getlistAll() {
+		return userDao.getlistAll();
+	}
 	
 	
 }
