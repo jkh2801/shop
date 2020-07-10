@@ -44,7 +44,8 @@ http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 <bean id="exceptionHandler" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 	<property name="exceptionMappings">
 		<value>exception.CartEmptyException=exception
-		exception.LoginException=exception</value>
+		exception.LoginException=exception
+		exception.BoardException=exception</value>
 	</property>
 </bean>
 

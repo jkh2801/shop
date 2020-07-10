@@ -52,4 +52,11 @@ public class UserDao {
 	public List<User> getlistAll() {
 		return template.query("SELECT * FROM useraccount where userid != 'admin'", mapper);
 	}
+	public List<User> userlist(String[] idchks) {
+		String sql = "select * from useraccount where userid in(";
+		for (int i = 0; i < idchks.length; i++) {
+			sql += (i == idchks.length-1)?  "'"+idchks[i]+"')": "'"+idchks[i]+"',";
+		}
+		return template.query(sql, mapper);
+	}
 }

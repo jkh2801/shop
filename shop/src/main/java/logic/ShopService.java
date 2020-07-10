@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import dao.BoardDao;
 import dao.ItemDao;
 import dao.SaleDao;
 import dao.UserDao;
@@ -25,6 +26,9 @@ public class ShopService {
 	
 	@Autowired
 	private SaleDao saleDao;
+	
+	@Autowired
+	private BoardDao boardDao;
 	
 	public List<Item> getItemList() {
 		return itemDao.list();
@@ -111,6 +115,23 @@ public class ShopService {
 
 	public List<User> getlistAll() {
 		return userDao.getlistAll();
+	}
+
+	public List<User> userlist(String[] idchks) {
+		return userDao.userlist(idchks);
+	}
+
+	public void boardWrite(Board board, HttpServletRequest request) {
+		if(board.getFile1() != null && !board.getFile1().isEmpty()) {
+			uploadFileCreate(board.getFile1(), request, "board/file/");
+			board.setFileurl(board.getFile1().getOriginalFilename());
+		}
+		int max = boardDao.maxnum();
+		System.out.println("max: "+ max);
+		board.setNum(++max);
+		board.setGrp(max);
+		boardDao.insert(board);
+		
 	}
 	
 	
