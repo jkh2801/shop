@@ -50,6 +50,7 @@ public class ShopService {
 	private void uploadFileCreate(MultipartFile picture, HttpServletRequest request, String path) {
 		String orgFile = picture.getOriginalFilename();
 		String uploadPath = request.getServletContext().getRealPath("/") + path;
+		// 웹 어플리케이션의 경로를 구하기 (webapp폴더까지)
 		System.out.println(uploadPath);
 		System.out.println("orgFile: "+ orgFile);
 		File fpath = new File(uploadPath);
@@ -133,6 +134,25 @@ public class ShopService {
 		boardDao.insert(board);
 		
 	}
+
+	public int maxnum() {
+		return boardDao.maxnum();
+	}
+
+	public List<Board> getBoardAll(int pageNum, int limit, String searchtype, String searchcontent) {
+		return boardDao.getBoardAll((pageNum-1)*limit, limit, searchtype, searchcontent);
+	}
+
+	public int countnum(String searchtype, String searchcontent) {
+		return boardDao.countnum(searchtype, searchcontent);
+	}
+
+	public Board getBoard(Integer num) {
+		boardDao.updateReadCnt(num);
+		return boardDao.getBoard(num);
+	}
+
+
 	
 	
 }

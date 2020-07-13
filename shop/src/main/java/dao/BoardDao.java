@@ -1,6 +1,7 @@
 package dao;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
@@ -34,10 +35,46 @@ public class BoardDao {
 
 	public void insert(Board board) {
 		SqlParameterSource prop = new BeanPropertySqlParameterSource(board);
-		System.out.println(board);
 		String sql = "insert into board (num, name, pass, subject, content, fileurl, regdate, readcnt, grp, grplevel, grpstep) values(:num,:name,:pass,:subject,:content,:fileurl,now(),:readcnt,:grp,:grplevel,:grpstep)";
 		template.update(sql, prop);
 	}
+
+	public List<Board> getBoardAll(int start, int limit, String searchtype, String searchcontent) {
+		param.clear();
+		param.put("start", start);
+		param.put("limit", limit);
+		param.put("searchcontent", "%"+searchcontent+"%");
+		String sql = "SELECT * FROM board ";
+		if (searchtype != null) {
+				sql += "where "+searchtype+" like :searchcontent";
+		}
+		sql += " ORDER BY grp desc, grpstep LIMIT :start, :limit";
+		return template.query(sql, param, mapper);
+	}
+
+	public int countnum(String searchtype, String searchcontent) {
+		param.clear();
+		param.put("searchcontent", "%"+searchcontent+"%");
+		String sql = "select count(*) from board ";
+		if (searchtype != null) {
+			sql += "where "+searchtype+" like :searchcontent";
+		}
+		System.out.println(sql);
+		return template.queryForObject(sql, param, Integer.class);
+	}
+
+	public Board getBoard(Integer num) {
+		param.clear();
+		param.put("num", num);
+		return template.queryForObject("select * from board where num = :num", param, mapper);
+	}
+
+	public void updateReadCnt(Integer num) {
+		param.clear();
+		param.put("num", num);
+		template.update("update board set readcnt = readcnt+1 where num = :num", param);
+	}
+
 	
 	
 

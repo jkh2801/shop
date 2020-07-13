@@ -15,5 +15,6 @@
 	<pattern>/ajax/*</pattern>
 	<pattern>/member/picture*</pattern>
 	<pattern>/member/password*</pattern>
+	<pattern>/board/imgupload*</pattern>
 	</excludes>
 </decorators>
