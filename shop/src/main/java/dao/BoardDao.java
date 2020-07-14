@@ -75,6 +75,22 @@ public class BoardDao {
 		template.update("update board set readcnt = readcnt+1 where num = :num", param);
 	}
 
+	public void grpstepAdd(Board board) {
+		SqlParameterSource prop = new BeanPropertySqlParameterSource(board);
+		template.update("update board set grpstep = grpstep+1 where grp = :grp and grpstep > :grpstep", prop);
+	}
+
+	public void update(Board board) {
+		SqlParameterSource prop = new BeanPropertySqlParameterSource(board);
+		template.update("update board set name=:name, pass=:pass, subject=:subject, content=:content, fileurl = :fileurl where num = :num", prop);
+	}
+
+	public void delete(int num) {
+		param.clear();
+		param.put("num", num);
+		template.update("delete from board where num = :num", param);
+	}
+
 	
 	
 

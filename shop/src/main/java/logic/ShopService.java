@@ -152,6 +152,31 @@ public class ShopService {
 		return boardDao.getBoard(num);
 	}
 
+	public void grpstepAdd(Board board) {
+		boardDao.grpstepAdd(board);
+	}
+
+	public void replyInsert(Board board, HttpServletRequest request) {
+		if(board.getFile1() != null && !board.getFile1().isEmpty()) {
+			uploadFileCreate(board.getFile1(), request, "board/file/");
+			board.setFileurl(board.getFile1().getOriginalFilename());
+		}
+		boardDao.insert(board);
+		
+	}
+
+	public void updateBoard(Board board, HttpServletRequest request) {
+		if(board.getFile1() != null && !board.getFile1().isEmpty()) {
+			uploadFileCreate(board.getFile1(), request, "board/file/");
+			board.setFileurl(board.getFile1().getOriginalFilename());
+		}
+		boardDao.update(board);
+	}
+
+	public void deleteBoard(int num) {
+		boardDao.delete(num);
+	}
+
 
 	
 	

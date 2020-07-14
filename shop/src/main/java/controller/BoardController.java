@@ -48,7 +48,7 @@ public class BoardController {
 			boolean readcnttable = false;
 			if(request.getRequestURI().contains("datail.shop"))
 				readcnttable = true;
-			
+			board = service.getBoard(num);
 		}
 		mav.addObject("board", board);
 		return mav;
@@ -108,13 +108,57 @@ public class BoardController {
 	
 	@GetMapping("detail")
 	public ModelAndView detail(Integer num, HttpServletRequest request) {
-		System.out.println(request.getRequestURI());
 		ModelAndView mav = new ModelAndView();
 		Board board = service.getBoard(num);
-		System.out.println(board);
 		mav.addObject("board", board);
 		return mav;
 	}
+	
+	
+	// 답변 글 데이터 추가
+	// - grp에 해당하는 레코드 grpstep 값보다 큰 grpstep의 값을 grpstep+1
+	// - maxnum +1 값으로 num 값을 저장
+	// - grplevel +1 값으로 grplevel 값을 저장
+	// - grpstep +1 값으로 grpstep 값을 저장
+	// - 파라미터 값으로 board 테이블에 insert 하기
+	// grp : 원글 번호, grplevel : 답글 단계, grpstep : 답글 순서
+	
+	@PostMapping("reply")
+	public ModelAndView reply(@Valid Board board, BindingResult bresult, HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+		if(bresult.hasErrors()) {
+			mav.getModel().putAll(bresult.getModel());
+			board = service.getBoard(board.getNum());
+			return mav;
+		}
+		try {
+			service.grpstepAdd(board);
+			board.setNum(service.maxnum()+1);
+			board.setGrplevel(board.getGrplevel()+1);
+			board.setGrpstep(board.getGrpstep()+1);
+			service.replyInsert(board, request);
+			mav.setViewName("redirect:list.shop");
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new BoardException("답글 등록에 실패했습니다.", "reply.shop?num="+board.getNum());
+		}
+		return mav;
+	}
+	
+	@PostMapping("update")
+	public ModelAndView update(@Valid Board board, BindingResult bresult, HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+		if(bresult.hasErrors()) {
+			mav.getModel().putAll(bresult.getModel());
+			return mav;
+		}
+		Board boardinfo = service.getBoard(board.getNum());
+		if(!board.getPass().equals(boardinfo.getPass()))
+			throw new BoardException("비밀번호가 틀립니다.", "update.shop?num="+board.getNum());
+		service.updateBoard(board, request);
+		throw new BoardException("게시글이 수정되었습니다.", "detail.shop?num="+board.getNum());
+	}
+	
 	
 	@RequestMapping("imgupload")
 	public String imgupload(MultipartFile upload, String CKEditorFuncNum, HttpServletRequest request, Model model) {
@@ -134,10 +178,25 @@ public class BoardController {
 			}
 		}
 		String filename = "/shop/board/imgfile/"+upload.getOriginalFilename();
-		System.out.println(filename);
 		model.addAttribute("fileName", filename);
 		model.addAttribute("CKEditorFuncNum", CKEditorFuncNum);
 		return "ckedit";
 	}
 	
+	@PostMapping("delete")
+	public ModelAndView delete(@Valid Board board, BindingResult bresult, HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+		System.out.println(board);
+		if (board.getPass().trim().equals("")) {
+			bresult.reject("error.required.password");
+			return mav;
+		}
+		Board boardinfo = service.getBoard(board.getNum());
+		if (!board.getPass().equals(boardinfo.getPass())) {
+			bresult.reject("error.login.password");
+			return mav;
+		}
+		service.deleteBoard(board.getNum());
+		throw new BoardException("게시글이 삭제되었습니다.", "list.shop");
+	}
 }
